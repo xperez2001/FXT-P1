@@ -78,7 +78,7 @@ void process_hello_operation(int sock)
 
   send_parameterless_msg(sock, hello_rp.opcode);
   recv(sock, &hello_rp.msg, sizeof(hello_rp.msg), MSG_WAITALL);
-  printf(hello_rp.msg);
+  printf("%s", hello_rp.msg);
 }
 
 /**

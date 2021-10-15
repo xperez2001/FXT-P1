@@ -21,6 +21,7 @@ void send_parameterless_msg(int sock, int operation)
 
   build_parameterless_msg(buffer, operation);
   //TODO send(...);
+  send(sock, (const void*) buffer, sizeof(buffer), 0);
 }
 
 /**
