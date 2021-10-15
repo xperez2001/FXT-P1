@@ -23,9 +23,9 @@ void send_parameterless_msg(int sock, int operation)
   
 
   if (send(sock, (const void*) buffer, sizeof(buffer), 0) == -1)
-    printf("COMMON: send -> Error");
+    printf("COMMON: send -> Error\n");
   else 
-    printf("COMMON: send -> Succes");
+    printf("COMMON: send -> Succes\n");
 }
 
 /**
