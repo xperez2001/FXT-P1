@@ -63,8 +63,9 @@ int process_msg(int sock, swConnectionsMatrix swConnections)
 
   //TODO: obtenir el codi d'operació a partir del buffer:
   op_code = buffer[0];
-  op_code <<= 8;
+  op_code *= 10;
   op_code |= buffer[1];
+  printf("buffer[0] = %d, buffer[1] = %d, opcode = %d \n", buffer[0], buffer[1], op_code);
   
   //op_code = 1; // Prova
 

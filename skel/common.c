@@ -25,7 +25,7 @@ void send_parameterless_msg(int sock, int operation)
   if (send(sock, (const void*) buffer, sizeof(buffer), 0) == -1)
     printf("COMMON: send -> Error\n");
   else 
-    printf("COMMON: send -> Succes\n");
+    printf("COMMON: send -> Success\n");
 }
 
 /**
@@ -35,11 +35,8 @@ void send_parameterless_msg(int sock, int operation)
  */
 void build_parameterless_msg(char *msg, unsigned short operation)
 {
-  if (operation < 10)
-    msg[0] = 0;
-  else
-    msg[0] = 1;
-  
+
+  msg[0] = operation/10; 
   msg[1] = operation%10;
 
   printf("msg[0] = %d, msg[1] = %d", msg[0], msg[1]);

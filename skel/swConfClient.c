@@ -81,7 +81,7 @@ void process_hello_operation(int sock)
   if (recv(sock, &hello_rp.msg, sizeof(hello_rp.msg), MSG_WAITALL) == -1)
     printf("CLIENT: recv -> Error");
   else
-    printf("CLIENT: recv -> Succes");
+    printf("CLIENT: recv -> Success");
   printf("hello_rp.msg = %s", hello_rp.msg);
 }
 
@@ -392,7 +392,7 @@ int main(int argc, char *argv[])
   if (s == -1)
 	printf("CLIENT: socket -> Error");
   else 
-    printf("CLIENT: socket -> Succes");
+    printf("CLIENT: socket -> Success");
 
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = htons(port);
@@ -401,7 +401,7 @@ int main(int argc, char *argv[])
   if (connect(s, (struct sockaddr*)& server_addr, sizeof(server_addr)) == -1)
 	printf("CLIENT: connect -> Error");
   else
-    printf("CLIENT: connect -> Succes");
+    printf("CLIENT: connect -> Success");
 
   do{
       //do_list_operation(s);
