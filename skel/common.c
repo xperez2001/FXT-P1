@@ -17,10 +17,16 @@
  */
 void send_parameterless_msg(int sock, int operation)
 { 
+  printf('common.c; build_parameterless_msg()');
   char buffer[2];
 
-  build_parameterless_msg(buffer, operation);
-  send(sock, (const void*) buffer, sizeof(buffer), 0);
+  build_parameterless_msg(buffer,  &operation);
+  
+
+  if (send(sock, (const void*) buffer, sizeof(buffer), 0) == -1)
+  {
+    printf('Error al send');
+  }
 }
 
 /**
@@ -30,6 +36,7 @@ void send_parameterless_msg(int sock, int operation)
  */
 void build_parameterless_msg(char *msg, unsigned short operation)
 {
+  printf('common.c; build_parameterless_msg()');
   if (operation < 10)
     msg[0] = '0';
   else
@@ -37,6 +44,8 @@ void build_parameterless_msg(char *msg, unsigned short operation)
   
   msg[1] = operation%10 + 48;
 
+  printf('msg[0] = %c, msg[1] = %c', msg[0], msg[1]);
+  printf('opcode = %s', msg);
 }
 
 /**
