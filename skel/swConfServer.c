@@ -66,7 +66,7 @@ int process_msg(int sock, swConnectionsMatrix swConnections)
   op_code <<= 8;
   op_code |= buffer[1];
   
-  op_code = 1; // Prova
+  //op_code = 1; // Prova
 
   printf("Process_msg <-- op_code = %d \n", op_code);
   switch(op_code)

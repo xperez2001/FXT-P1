@@ -36,13 +36,13 @@ void send_parameterless_msg(int sock, int operation)
 void build_parameterless_msg(char *msg, unsigned short operation)
 {
   if (operation < 10)
-    msg[0] = '0';
+    msg[0] = 0;
   else
-    msg[0] = '1';
+    msg[0] = 1;
   
-  msg[1] = operation%10 + 48;
+  msg[1] = operation%10;
 
-  printf("msg[0] = %c, msg[1] = %c", msg[0], msg[1]);
+  printf("msg[0] = %d, msg[1] = %d", msg[0], msg[1]);
   printf("opcode = %s", msg);
 }
 

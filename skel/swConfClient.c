@@ -76,12 +76,13 @@ void process_hello_operation(int sock)
 
   memset(&hello_rp, '\0', sizeof(hello_rp));
 
-  send_parameterless_msg(sock, hello_rp.opcode);
+  send_parameterless_msg(sock, MSG_HELLO);
+
   if (recv(sock, &hello_rp.msg, sizeof(hello_rp.msg), MSG_WAITALL) == -1)
     printf("CLIENT: recv -> Error");
   else
     printf("CLIENT: recv -> Succes");
-  printf("%s", hello_rp.msg);
+  printf("hello_rp.msg = %s", hello_rp.msg);
 }
 
 /**
