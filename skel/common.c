@@ -20,7 +20,6 @@ void send_parameterless_msg(int sock, int operation)
   char buffer[2];
 
   build_parameterless_msg(buffer, operation);
-  //TODO send(...);
   send(sock, (const void*) buffer, sizeof(buffer), 0);
 }
 
@@ -31,7 +30,13 @@ void send_parameterless_msg(int sock, int operation)
  */
 void build_parameterless_msg(char *msg, unsigned short operation)
 {
-  //TODO stshort(...);
+  if (operation < 10)
+    msg[0] = '0';
+  else
+    msg[0] = '1';
+  
+  msg[1] = operation%10 + 48;
+
 }
 
 /**
