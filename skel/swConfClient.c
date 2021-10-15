@@ -402,7 +402,6 @@ int main(int argc, char *argv[])
   else
     printf("CLIENT: connect -> Succes");
 
-  process_hello_operation(s);
   do{
       do_list_operation(s);
       printa_menu();
