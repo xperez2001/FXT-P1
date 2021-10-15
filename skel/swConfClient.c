@@ -403,7 +403,7 @@ int main(int argc, char *argv[])
     printf("CLIENT: connect -> Succes");
 
   do{
-      do_list_operation(s);
+      //do_list_operation(s);
       printa_menu();
 		  // getting the user input.
 		  scanf("%d",&option);

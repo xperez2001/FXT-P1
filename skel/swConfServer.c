@@ -49,11 +49,14 @@ int getPort(int argc, char* argv[])
  */
 int process_msg(int sock, swConnectionsMatrix swConnections)
 {
+  printf("process_msg \n");
   unsigned short op_code;
   char buffer[MAX_BUFF_SIZE];
   int done = 0;
 
-  if (recv(sock,buffer, MAX_BUFF_SIZE, MSG_WAITALL) == -1)
+  printf("Preparant el recv \n");
+
+  if (recv(sock, &buffer, MAX_BUFF_SIZE, 0) == -1)
     printf("Error al recv del client\n");
   else
     printf("Success al recv del client\n");
@@ -62,6 +65,8 @@ int process_msg(int sock, swConnectionsMatrix swConnections)
   op_code = buffer[0];
   op_code <<= 8;
   op_code |= buffer[1];
+  
+  op_code = 1; // Prova
 
   printf("Process_msg <-- op_code = %d \n", op_code);
   switch(op_code)
