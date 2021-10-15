@@ -197,7 +197,7 @@ void process_parameterless_boolean_operation_with_feedback(int sock,
  * stdin value.
  * @param a ptr where to store the mac address got from the stdin.
  */
-void set_MAC_from_stdin(char * mac)
+void set_MAC_from_stdin(char* mac)
 {
   printf("Indica l'adreça MAC a connectar:\n");
   scanf("%s", mac);
