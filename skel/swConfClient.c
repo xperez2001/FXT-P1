@@ -36,7 +36,7 @@ int setaddrbyname(struct sockaddr_in *addr, char *host)
 }
 
 /**
- * Shows the menu options.
+ * Shows the menu options.s
  */
 void printa_menu()
 {
