@@ -53,13 +53,17 @@ int process_msg(int sock, swConnectionsMatrix swConnections)
   char buffer[MAX_BUFF_SIZE];
   int done = 0;
 
-  recv(sock,buffer, MAX_BUFF_SIZE, MSG_WAITALL);
+  if (recv(sock,buffer, MAX_BUFF_SIZE, MSG_WAITALL) == -1)
+    printf("Error al recv del client\n");
+  else
+    printf("Success al recv del client\n");
+
   //TODO: obtenir el codi d'operació a partir del buffer:
   op_code = buffer[0];
   op_code <<= 8;
   op_code |= buffer[1];
 
-  printf("op_code = %d", op_code);
+  printf("porocess_msg <-- op_code = %d \n", op_code);
   switch(op_code)
   {
     case MSG_HELLO:
@@ -495,9 +499,11 @@ int main(int argc, char* argv[])
     else
       printf("SERVER: accept -> Succes\n");
     
-    process_HELLO_msg(con_sock);
+   
 
     do {
+    
+      //process_HELLO_msg(con_sock);
       done = process_msg(con_sock, swConnections);
     }while(!done);
 
