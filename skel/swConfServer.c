@@ -104,7 +104,10 @@ void process_HELLO_msg(int sock)
   hello_rp.opcode = MSG_HELLO;
   char msg[12] = "Hello world";
   strcpy(hello_rp.msg, msg);
-  send(sock, hello_rp.msg, sizeof(hello_rp.msg), 0);
+  if (send(sock, hello_rp.msg, sizeof(hello_rp.msg), 0) == -1)
+    printf("SERVER: send -> Error");
+  else
+    printf("SERVER: send -> Succes");
 
 /**
  * Function that sends the matrix whith the MAC addresses connected to each
@@ -462,23 +465,32 @@ int main(int argc, char* argv[])
   //TODO: setting up the socket for communication
   int s = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
+  if (s == -1)
+	  printf("SERVER: socket -> Error");
+  else 
+    printf("SERVER: socket -> Succes");
+
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = htons(port);
   server_addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
   if (bind(s, (struct sockaddr*)& server_addr, sizeof(server_addr)) == -1)
-  {
-    // HAURIA DE RETORNAR ERROR;
-  }
+    printf("SERVER: bind -> Error");
+  else
+    printf("SERVER: bind -> Succes");
 
   if (listen(s, MAX_QUEUED_CON) == -1)
-  {
-    // HAURIA DE RETORNAR ERROR;
-  }
+    printf("SERVER: listen -> Error");
+  else
+    printf("SERVER: listen -> Succes");
 
   while(1) {
 
     con_sock = accept(s, (struct sockaddr*)& server_addr, &client_addrlen);
+    if (con_sock == -1)
+      printf("SERVER: accept -> Error");
+    else
+      printf("SERVER: accept -> Succes");
     
     process_HELLO_msg(con_sock);
 

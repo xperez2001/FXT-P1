@@ -77,7 +77,10 @@ void process_hello_operation(int sock)
   memset(&hello_rp, '\0', sizeof(hello_rp));
 
   send_parameterless_msg(sock, hello_rp.opcode);
-  recv(sock, &hello_rp.msg, sizeof(hello_rp.msg), MSG_WAITALL);
+  if (recv(sock, &hello_rp.msg, sizeof(hello_rp.msg), MSG_WAITALL) == -1)
+    printf("CLIENT: recv -> Error");
+  else
+    printf("CLIENT: recv -> Succes");
   printf("%s", hello_rp.msg);
 }
 
@@ -385,12 +388,20 @@ int main(int argc, char *argv[])
 
   //TODO: setting up the socket for communication
   s = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+  if (s == -1)
+	printf("CLIENT: socket -> Error");
+  else 
+    printf("CLIENT: socket -> Succes");
 
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = htons(port);
   setaddrbyname(&server_addr, host);
 
-  connect(s, (struct sockaddr*)& server_addr, sizeof(server_addr));
+  if (connect(s, (struct sockaddr*)& server_addr, sizeof(server_addr)) == -1)
+	printf("CLIENT: connect -> Error");
+  else
+    printf("CLIENT: connect -> Succes");
+
   process_hello_operation(s);
   do{
       do_list_operation(s);
