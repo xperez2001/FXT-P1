@@ -79,10 +79,11 @@ void process_hello_operation(int sock)
   send_parameterless_msg(sock, MSG_HELLO);
 
   if (recv(sock, &hello_rp.msg, sizeof(hello_rp.msg), MSG_WAITALL) == -1)
-    printf("CLIENT: recv -> Error");
+    printf("CLIENT: recv -> Error\n");
   else
-    printf("CLIENT: recv -> Success");
-  printf("hello_rp.msg = %s", hello_rp.msg);
+    printf("CLIENT: recv -> Success\n");
+
+  printf("hello_rp.msg = %s\n", hello_rp.msg);
 }
 
 /**
@@ -344,6 +345,8 @@ void process_menu_option(int s, int option)
 
 int main(int argc, char *argv[])
 {
+  printf("\nINICIANT CLIENT...\n\n");
+
 	int param; // to process the params we use to call the application
 	int ctrl_host = 0;
 	int port = DEFAULT_PORT;
@@ -390,18 +393,18 @@ int main(int argc, char *argv[])
   //TODO: setting up the socket for communication
   s = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
   if (s == -1)
-	printf("CLIENT: socket -> Error");
+	printf("CLIENT: socket -> Error\n");
   else 
-    printf("CLIENT: socket -> Success");
+    printf("CLIENT: socket -> Success\n");
 
   server_addr.sin_family = AF_INET;
   server_addr.sin_port = htons(port);
   setaddrbyname(&server_addr, host);
 
   if (connect(s, (struct sockaddr*)& server_addr, sizeof(server_addr)) == -1)
-	printf("CLIENT: connect -> Error");
+	printf("CLIENT: connect -> Error\n");
   else
-    printf("CLIENT: connect -> Success");
+    printf("CLIENT: connect -> Success\n");
 
   do{
       //do_list_operation(s);

@@ -49,27 +49,23 @@ int getPort(int argc, char* argv[])
  */
 int process_msg(int sock, swConnectionsMatrix swConnections)
 {
-  printf("process_msg \n");
   unsigned short op_code;
   char buffer[MAX_BUFF_SIZE];
   int done = 0;
 
-  printf("Preparant el recv \n");
-
   if (recv(sock, &buffer, MAX_BUFF_SIZE, 0) == -1)
-    printf("Error al recv del client\n");
+    printf("\tSERVER: recv -> Error\n");
   else
-    printf("Success al recv del client\n");
+    printf("\tSERVER: recv -> Success\n");
 
   //TODO: obtenir el codi d'operació a partir del buffer:
   op_code = buffer[0];
   op_code *= 10;
   op_code |= buffer[1];
-  printf("buffer[0] = %d, buffer[1] = %d, opcode = %d \n", buffer[0], buffer[1], op_code);
-  
-  //op_code = 1; // Prova
 
-  printf("Process_msg <-- op_code = %d \n", op_code);
+  printf("\tbuffer[0] = %d, buffer[1] = %d, opcode = %d \n", buffer[0], buffer[1], op_code);
+ 
+  printf("\tProcess_msg <-- op_code = %d \n", op_code);
   switch(op_code)
   {
     case MSG_HELLO:
@@ -116,9 +112,9 @@ void process_HELLO_msg(int sock)
   strcpy(hello_rp.msg, msg);
 
   if (send(sock, hello_rp.msg, sizeof(hello_rp.msg), 0) == -1)
-    printf("SERVER: send -> Error\n");
+    printf("\tSERVER: send -> Error\n");
   else
-    printf("SERVER: send -> Succes\n");
+    printf("\tSERVER: send -> Succes\n");
 
 /**
  * Function that sends the matrix whith the MAC addresses connected to each
@@ -143,7 +139,7 @@ void process_LIST_msg(int sock, swConnectionsMatrix swConnections)
 /**
  * Function that connects a MAC address to the given port if the port is
  * available.
- * If the port is available a success message is sent to the user.
+ * If the port is available a Succes message is sent to the user.
  * If not the error is reported to the user.
  * @param sock the communications socket.
  * @param swConnections the matrix with all the MAC addresses connected to each
@@ -331,7 +327,7 @@ void process_FREE_ALL_msg(int sock, swConnectionsMatrix swConnections,
  * port of the switch.
  * @param free_hdr Message received from the client already wrapped in the
  * corresponding structure.
- * @return 0 if the file has been generated successfuly, -1 otherwise.
+ * @return 0 if the file has been generated Successfuly, -1 otherwise.
  */
 int process_GEN_FILE_msg(int sock, swConnectionsMatrix swConnections,
   char * buffer)
@@ -464,7 +460,7 @@ int getAvailablePort(swConnectionsMatrix swConnections)
 
 int main(int argc, char* argv[])
 {
-  printf("\nINICIANT SERVER\n");
+  printf("\nINICIANT SERVER...\n\n");
 
   swConnectionsMatrix swConnections;
   int con_sock;
@@ -503,7 +499,7 @@ int main(int argc, char* argv[])
     if (con_sock == -1)
       printf("SERVER: accept -> Error\n");
     else
-      printf("SERVER: accept -> Succes\n");
+      printf("SERVER: accept -> Succes\n"); 
     
    
 
