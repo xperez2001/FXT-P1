@@ -8,7 +8,7 @@
 #include "swConfClient.h"
 
 /**
- * Function that sets the field addr->sin_addr.s_addr from a host name 
+ * Function that sets the field addr->sin_addr.s_addr from a host name
  * address.
  * @param addr struct where to set the address.
  * @param host the host name to be converted
@@ -21,22 +21,22 @@ int setaddrbyname(struct sockaddr_in *addr, char *host)
 
   memset(&hints, 0, sizeof(struct addrinfo));
   hints.ai_family = AF_INET;
-  hints.ai_socktype = SOCK_STREAM; 
- 
+  hints.ai_socktype = SOCK_STREAM;
+
   if ((status = getaddrinfo(host, NULL, &hints, &res)) != 0) {
     fprintf(stderr, "getaddrinfo: %s\n", gai_strerror(status));
     return -1;
   }
-  
+
   addr->sin_addr.s_addr = ((struct sockaddr_in *)res->ai_addr)->sin_addr.s_addr;
-  
+
   freeaddrinfo(res);
-    
-  return 0;  
+
+  return 0;
 }
 
 /**
- * Shows the menu options. 
+ * Shows the menu options.
  */
 void printa_menu()
 {
@@ -62,7 +62,7 @@ void process_finish_operation(int sock)
 {
   //TODO: send_parameterless_msg(...);
   //TODO close(...);
-  exit(0);     
+  exit(0);
 }
 
 
@@ -73,13 +73,12 @@ void process_finish_operation(int sock)
 void process_hello_operation(int sock)
 {
   struct hello_rp_hdr hello_rp;
-  
-  memset(&hello_rp, '\0', sizeof(hello_rp));
- 
-  //TODO  send_parameterless_msg(....);
-  //TODO  recv(....);
-  //TODO printf("%s\n", ...);       
 
+  memset(&hello_rp, '\0', sizeof(hello_rp));
+
+  send_parameterless_msg(sock, hello_rp.opcode);
+  recv(sock, &hello_rp.msg, sizeof(hello_rp.msg), MSG_WAITALL);
+  printf(hello_rp.msg);
 }
 
 /**
@@ -91,12 +90,12 @@ void process_connect_to_operation(int sock)
 {
   struct conn_to_hdr connect_to;
   char reply[MAX_REPLY_SIZE];
-   
+
   //NOTA: L'operation code és  MSG_CONN_TO
   //TODO  connect_to.opcode = htons(...);
   //TODO omplir port
   set_MAC_from_stdin(connect_to.mac);
-    
+
   //TODO send(.....);
   //TODO recv(..., reply, ....);
   show_boolean_operation_feedback(reply);
@@ -111,14 +110,14 @@ void process_connect_to_any_operation(int sock)
 {
   struct conn_any_hdr connect_to_any;
   struct conn_any_rp_hdr reply;
-    
-  //TODO omplir el opcode MSG_CONN_ANY  
+  (void) reply;
+  //TODO omplir el opcode MSG_CONN_ANY
   set_MAC_from_stdin(connect_to_any.mac);
 
   //TODO send(....)
-  //TODO recv(.., reply,..)    
+  //TODO recv(.., reply,..)
 
-  //TODO obtenir el codi d'operació tot omplint el 
+  //TODO obtenir el codi d'operació tot omplint el
   //puntejat i descomentar aquest codi
   /*
   if(.... == MSG_CONN_ANY_RP)
@@ -129,8 +128,8 @@ void process_connect_to_any_operation(int sock)
   else
   {
     show_boolean_operation_feedback((char *)&reply);
-  } 
-  */ 
+  }
+  */
 }
 
 /**
@@ -142,14 +141,14 @@ void process_free_operation(int sock)
 {
   struct free_hdr free_msg;
   char reply[MAX_REPLY_SIZE];
-  
+  (void) free_msg;
   //TODO omplir opcode
   //TODO omplir port ........=....(get_port_from_stdin());
 
-  //TODO send(....)  
+  //TODO send(....)
   //TODO recv(..., reply, ...);
   show_boolean_operation_feedback(reply);
-  
+
 }
 
 /**
@@ -157,7 +156,7 @@ void process_free_operation(int sock)
  * @param sock socket used for the communication.
  */
 void process_free_all_operation(int sock)
-{  
+{
   process_parameterless_boolean_operation_with_feedback(sock, MSG_FREE_ALL);
 }
 
@@ -177,31 +176,31 @@ void process_gen_file_operation(int sock)
  * @param sock socket used for the communication.
  * @param msg The operation code to be sent.
  */
-void process_parameterless_boolean_operation_with_feedback(int sock, 
+void process_parameterless_boolean_operation_with_feedback(int sock,
   unsigned short msg)
 {
   char reply[MAX_REPLY_SIZE];
-  
- 
+
+
   send_parameterless_msg(sock, msg);
   //TODO recv(..., reply, ....);
   show_boolean_operation_feedback(reply);
 }
 
 /**
- * Function that requests to the user for the MAC address and gets the 
+ * Function that requests to the user for the MAC address and gets the
  * stdin value.
  * @param a ptr where to store the mac address got from the stdin.
  */
 void set_MAC_from_stdin(char * mac)
-{  
+{
   printf("Indica l'adreça MAC a connectar:\n");
   scanf("%s", mac);
   printf("\n");
 }
 
 /**
- * Function that prints the result of the operation, which can be success or 
+ * Function that prints the result of the operation, which can be success or
  * failure. In a failure case the error message is shown.
  * @param reply the message received by the server.
  */
@@ -209,7 +208,8 @@ void show_boolean_operation_feedback(char *reply)
 {
   int error_code;
   char err_msg[MAX_ERR_MSG_SIZE];
-  
+  (void) err_msg;
+  (void) error_code;
   //TODO obtenir, a partir de reply, el codi d'operació.
   // tot omplint el puntejat i descomentant el codi.
   /*
@@ -227,14 +227,14 @@ void show_boolean_operation_feedback(char *reply)
 }
 
 /**
- * Function that deppendig on the error code, sets the err_msg parameter 
+ * Function that deppendig on the error code, sets the err_msg parameter
  * to the proper error message.
  * @param err_code the error code.
  * @param err_msg the error message to be built.
  */
 void get_error_msg(int err_code, char *err_msg)
 {
-    
+
     switch(err_code)
     {
       case (ERR_CODE_1):
@@ -242,7 +242,7 @@ void get_error_msg(int err_code, char *err_msg)
         break;
       case (ERR_CODE_2):
         strcpy(err_msg, ERR_MSG_2);
-        break;        
+        break;
       case (ERR_CODE_3):
         strcpy(err_msg, ERR_MSG_3);
         break;
@@ -251,27 +251,27 @@ void get_error_msg(int err_code, char *err_msg)
         break;
       case (ERR_CODE_5):
         strcpy(err_msg, ERR_MSG_5);
-        break;                        
+        break;
       default:
         strcpy(err_msg, ERR_MSG_1);
-                      
+
     }
 }
 
 
 /**
- * Function that requests to the user for the switch port where connect a MAC 
+ * Function that requests to the user for the switch port where connect a MAC
  * address and gets the stdin value.
  * @return the port got from the stdin.
  */
 unsigned short get_port_from_stdin()
 {
   unsigned short port;
-  
+
   printf("Indica el port: \n");
   scanf("%hu", &port);
   printf("\n");
-  
+
   return port;
 }
 
@@ -283,10 +283,10 @@ unsigned short get_port_from_stdin()
 void do_list_operation(int sock)
 {
   struct list_rp_hdr list_rp;
-  
+  (void) list_rp;
   //TODO send_parameterless_msg(..., MSG_LIST);
   //TODO recv(.........);
-  
+
   //TODO comprovar el codi d'operació tot omplint els
   //puntejats i descomentar el codi.
   /*
@@ -294,21 +294,21 @@ void do_list_operation(int sock)
   {
     printConnections(stdout, list_rp.connectionsMatrix);
   }
-  else 
+  else
   {
     printf("Message out of the sequence");
-  }  
+  }
   */
 }
 
-/** 
- * Function that process the menu option set by the user by calling 
+/**
+ * Function that process the menu option set by the user by calling
  * the function related to the menu option.
  * @param s The communications socket
  * @param option the menu option specified by the user.
  */
 void process_menu_option(int s, int option)
-{		  
+{
   switch(option){
     // Opció HELLO
     case OP_HELLO:
@@ -321,39 +321,40 @@ void process_menu_option(int s, int option)
       process_connect_to_any_operation(s);
       break;
     case OP_FREE:
-      process_free_operation(s); 
+      process_free_operation(s);
       break;
     case OP_FREE_ALL:
-      process_free_all_operation(s);  
+      process_free_all_operation(s);
       break;
     case OP_GEN_FILE:
-      process_gen_file_operation(s);  
+      process_gen_file_operation(s);
       break;
     case OP_FINISH:
       process_finish_operation(s);
       break;
-                
+
     default:
           printf("Invalid menu option\n");
   		}
 }
 
 int main(int argc, char *argv[])
-{ 
+{
 	int param; // to process the params we use to call the application
-	int ctrl_host = 0; 
-	int port = DEFAULT_PORT; 
+	int ctrl_host = 0;
+	int port = DEFAULT_PORT;
 	char *host; // to get the host name from the optarg parameter
-	int option = 0; 
-  
+	int option = 0;
+
   //TODO declarar les variables per crear els sockets.
   int s;
-    
+  struct sockaddr_in server_addr;
+
 	// We process the application execution parameters.
 	while((param = getopt(argc, argv, "p:h:")) != -1){
 		switch((char) param){
 			case 'p':
-			  // We modify the port variable just in case a port is passed as a 
+			  // We modify the port variable just in case a port is passed as a
 			  // parameter
 				port = atoi(optarg);
 				break;
@@ -376,27 +377,31 @@ int main(int argc, char *argv[])
 	}
 
 	// Comprovem que s'hagi introduit un host. En cas contrari, terminem l'execucio de
-	// l'aplicatiu	
+	// l'aplicatiu
 	if(!ctrl_host){
 		perror("No s'ha especificat el nom del servidor\n\n");
 		return -1;
 	}
-  
-  //TODO: setting up the socket for communication
 
-  
+  //TODO: setting up the socket for communication
+  s = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+
+  server_addr.sin_family = AF_INET;
+  server_addr.sin_port = htons(port);
+  setaddrbyname(&server_addr, host);
+
+  connect(s, (struct sockaddr*)& server_addr, sizeof(server_addr));
+  process_hello_operation(s);
   do{
       do_list_operation(s);
       printa_menu();
 		  // getting the user input.
 		  scanf("%d",&option);
-		  printf("\n\n"); 
-		  process_menu_option(s, option)                  ;
+		  printf("\n\n");
+		  process_menu_option(s, option);
 
 	  }while(option != OP_FINISH); //end while(opcio)
- 
+
   return 0;
- 
-}	
-
-
+  //
+}
