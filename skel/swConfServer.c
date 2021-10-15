@@ -63,7 +63,7 @@ int process_msg(int sock, swConnectionsMatrix swConnections)
   op_code <<= 8;
   op_code |= buffer[1];
 
-  printf("porocess_msg <-- op_code = %d \n", op_code);
+  printf("Process_msg <-- op_code = %d \n", op_code);
   switch(op_code)
   {
     case MSG_HELLO:
@@ -503,7 +503,6 @@ int main(int argc, char* argv[])
 
     do {
     
-      //process_HELLO_msg(con_sock);
       done = process_msg(con_sock, swConnections);
     }while(!done);
 
