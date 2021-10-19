@@ -292,9 +292,12 @@ void do_list_operation(int sock)
   //TODO send_parameterless_msg(..., MSG_LIST);
   //TODO recv(.........);
 
+  send_parameterless_msg(sock, MSG_LIST);
+  recv(sock, &list_rp, sizeof(list_rp), 0);
+
   //TODO comprovar el codi d'operació tot omplint els
   //puntejats i descomentar el codi.
-  /*
+
   if (ntohs(list_rp.opcode) == MSG_LIST_RP)
   {
     printConnections(stdout, list_rp.connectionsMatrix);
@@ -303,7 +306,6 @@ void do_list_operation(int sock)
   {
     printf("Message out of the sequence");
   }
-  */
 }
 
 /**
@@ -407,7 +409,7 @@ int main(int argc, char *argv[])
     printf("CLIENT: connect -> Success\n");
 
   do{
-      //do_list_operation(s);
+      do_list_operation(s);
       printa_menu();
 		  // getting the user input.
 		  scanf("%d",&option);

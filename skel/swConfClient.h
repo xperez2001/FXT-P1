@@ -79,8 +79,7 @@ void process_free_all_operation(int sock);
 /**
  * Closes the socket connected to the server.
  * @param sock socket used for the communication.
- */
-void process_finish_operation(int sock);
+ */void process_finish_operation(int sock);
 
 /**
  * Sends a HELLO message and prints the server response.

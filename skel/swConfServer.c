@@ -124,7 +124,7 @@ void process_HELLO_msg(int sock)
  * port of the switch.
  */
 }
-void process_LIST_msg(int sock, swConnectionsMatrix swConnections)
+void rocess_LIST_msg(int sock, swConnectionsMatrix swConnections)
 {
   struct list_rp_hdr list_rp;
 
