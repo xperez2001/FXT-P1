@@ -39,8 +39,7 @@ void build_parameterless_msg(char *msg, unsigned short operation)
   msg[0] = operation/10; 
   msg[1] = operation%10;
 
-  printf("msg[0] = %d, msg[1] = %d ", msg[0], msg[1]);
-  printf("opcode = %s\n", msg);
+  printf("msg[0] = %d, msg[1] = %d \n", msg[0], msg[1]);
 }
 
 /**

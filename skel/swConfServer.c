@@ -124,7 +124,7 @@ void process_HELLO_msg(int sock)
  * port of the switch.
  */
 }
-void rocess_LIST_msg(int sock, swConnectionsMatrix swConnections)
+void process_LIST_msg(int sock, swConnectionsMatrix swConnections)
 {
   struct list_rp_hdr list_rp;
 
@@ -134,6 +134,11 @@ void rocess_LIST_msg(int sock, swConnectionsMatrix swConnections)
   //TODO: omplir el codi següent i descomentar:
   //TODO: memcpy(..., swConnections, MATRIX_SIZE);
   //TODO: send(.....);
+
+  list_rp.opcode = MSG_LIST_RP;
+  memcpy(list_rp.connectionsMatrix, swConnections, MATRIX_SIZE);
+  send(sock, list_rp.connectionsMatrix, MATRIX_SIZE, 0);
+
 }
 
 /**

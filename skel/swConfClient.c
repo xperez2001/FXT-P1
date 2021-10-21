@@ -234,7 +234,7 @@ void show_boolean_operation_feedback(char *reply)
 /**
  * Function that deppendig on the error code, sets the err_msg parameter
  * to the proper error message.
- * @param err_code the error code.
+ * @param err_code the error code.swConnections
  * @param err_msg the error message to be built.
  */
 void get_error_msg(int err_code, char *err_msg)
@@ -288,15 +288,20 @@ unsigned short get_port_from_stdin()
 void do_list_operation(int sock)
 {
   struct list_rp_hdr list_rp;
-  (void) list_rp;
+
   //TODO send_parameterless_msg(..., MSG_LIST);
   //TODO recv(.........);
 
   send_parameterless_msg(sock, MSG_LIST);
-  recv(sock, &list_rp, sizeof(list_rp), 0);
+  recv(sock, list_rp.connectionsMatrix, sizeof(list_rp.connectionsMatrix), 0);
+  list_rp.opcode = MSG_LIST;
 
   //TODO comprovar el codi d'operació tot omplint els
   //puntejats i descomentar el codi.
+
+  printf("ntohs(list_rp.opcode) = %d\n", ntohs(list_rp.opcode));
+  printConnections(stdout, list_rp.connectionsMatrix); // Això no hauria d'anar aqui, es per fer PROVES
+  
 
   if (ntohs(list_rp.opcode) == MSG_LIST_RP)
   {
