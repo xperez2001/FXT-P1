@@ -293,13 +293,17 @@ void do_list_operation(int sock)
   //TODO recv(.........);
 
   send_parameterless_msg(sock, MSG_LIST);
-  recv(sock, list_rp.connectionsMatrix, sizeof(list_rp.connectionsMatrix), 0);
-  list_rp.opcode = MSG_LIST;
+  recv(sock, &list_rp, sizeof(struct list_rp_hdr), 0);
 
   //TODO comprovar el codi d'operació tot omplint els
   //puntejats i descomentar el codi.
 
+  printf("\n\n\n ############################ Debug info ############################ \n\n\n");
+
+  printf("send_parameterless_msg \n");
+
   printf("ntohs(list_rp.opcode) = %d\n", ntohs(list_rp.opcode));
+  printf("list_rp.opcode = %d\n",list_rp.opcode);
   printConnections(stdout, list_rp.connectionsMatrix); // Això no hauria d'anar aqui, es per fer PROVES
   
 
