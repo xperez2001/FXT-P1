@@ -65,7 +65,6 @@ int process_msg(int sock, swConnectionsMatrix swConnections)
 
   printf("\tbuffer[0] = %d, buffer[1] = %d, opcode = %d \n", buffer[0], buffer[1], op_code);
  
-  printf("\tProcess_msg <-- op_code = %d \n", op_code);
   switch(op_code)
   {
     case MSG_HELLO:
@@ -136,12 +135,13 @@ void process_LIST_msg(int sock, swConnectionsMatrix swConnections)
   //TODO: send(.....);
 
   memcpy(list_rp.connectionsMatrix, swConnections, MATRIX_SIZE);
+  list_rp.opcode = ntohs(MSG_LIST_RP);
 
-  printf("\n\n\n ############################ Debug info ############################ \n\n\n");
-  printf("Server");
-  printConnections(stdout, list_rp.connectionsMatrix);
 
-  send(sock, &list_rp, sizeof(struct list_rp_hdr), 0);
+  if (send(sock, &list_rp, sizeof(struct list_rp_hdr), 0) == -1)
+    printf("\tSERVER: send -> Error\n");
+  else
+    printf("\tSERVER: send -> Success\n");
 
 }
 
@@ -479,8 +479,6 @@ int main(int argc, char* argv[])
   int done = 0;
 
   memset(swConnections, 0, MATRIX_SIZE);
-
-  swConnections[0][0] = "00:00:00:00:00:00";
 
   //TODO: setting up the socket for communication
   int s = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
