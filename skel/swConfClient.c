@@ -158,17 +158,19 @@ void process_free_operation(int sock)
 {
   struct free_hdr free_msg;
   char reply[MAX_REPLY_SIZE];
-  (void) free_msg;
-  //TODO omplir opcode = 8
-  free_msg.opcode = OP_FREE;
-  //TODO omplir port ........=....(get_port_from_stdin());
-  free_msg.port=get_port_from_stdin();
-  //TODO send(....)
-  send(sock, free_msg, sizeof(free_msg), 0);
-  //TODO recv(..., reply, ...);
-  recv(sock, reply, sizeof(reply), 0);
-  show_boolean_operation_feedback(reply);
 
+  //TODO omplir opcode
+  //TODO omplir port ........=....(get_port_from_stdin());
+  free_msg.opcode = htons(MSG_FREE);
+  free_msg.port = get_port_from_stdin();
+
+
+  //TODO send(....)  
+  //TODO recv(..., reply, ...);
+  send(sock, &free_msg, sizeof(free_msg), 0);
+  recv(sock, reply, sizeof(reply), 0);
+
+  show_boolean_operation_feedback(reply);
 }
 
 /**

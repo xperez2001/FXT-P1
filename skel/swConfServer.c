@@ -333,6 +333,7 @@ void process_FREE_ALL_msg(int sock, swConnectionsMatrix swConnections,
   build_ok_msg(reply);
 
   //TODO: send reply
+  send(sock, reply, sizeof(reply), 0);
 }
 
 
