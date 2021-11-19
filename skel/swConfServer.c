@@ -284,10 +284,9 @@ void process_FREE_msg(int sock, swConnectionsMatrix swConnections,
   memset(reply, 0, sizeof(reply));
 
   //TODO: obtenir el port del missatge free_msg:
-  //port = ...(....);
+  port = free_msg.port;
 
-  port = 8080; // TODO: borrar aquesta linia
-
+  
   if(isPortInRang(port) == FALSE)
   {
     build_error_msg(reply, ERR_CODE_4);
@@ -301,8 +300,9 @@ void process_FREE_msg(int sock, swConnectionsMatrix swConnections,
   {
     build_error_msg(reply, ERR_CODE_3);
   }
-  (void) free_msg;
+  
   //TODO: send reply
+  send(sock, reply, sizeof(reply), 0);
 }
 
 /**
