@@ -207,47 +207,55 @@ void process_CONN_TO_msg(int sock, swConnectionsMatrix swConnections, struct con
  * @param conn_any_msg Message received from the client already wrapped in the
  * corresponding structure.
  */
-void process_CONN_ANY_msg(int sock, swConnectionsMatrix swConnections,
-  struct conn_any_hdr * conn_any_msg)
+void process_CONN_ANY_msg(int sock, swConnectionsMatrix swConnections, struct conn_any_hdr * conn_any_msg)
 {
   struct conn_any_hdr connect_any = *conn_any_msg;
   struct conn_any_rp_hdr reply;
   char error_reply[MAX_REPLY_SIZE];
   unsigned short port;
-  unsigned short err_code = -1;
+  signed short err_code = -1;
 
   memset(error_reply, 0, sizeof(reply));
 
   if (isMACFormatRight(connect_any.mac) == TRUE)
   {
+    printf("Port = ");
     port = getAvailablePort(swConnections);
     if (port != -1)
     {
+      printf("available");
       //TODO: Assignar al port que hem triat
       // la mac que ens han passat pel missatge:
-      //strcpy(swConnections[port], .....);
+      strcpy(swConnections[port], connect_any.mac);
 
       //TODO: omplir els camps de reply:
-      //... = ...(MSG_CONN_ANY_RP);
-      //... = ...(port);
+      reply.opcode = htons(MSG_CONN_ANY_RP);
+      reply.port = htons(port);
     }
     else
     {
+      printf("not available");
+      printf("\nerr_code = ERR_CODE_2");
       err_code = ERR_CODE_2;
     }
   } //end isMACFormatRight
   else
   {
+    printf("\nerr_code = ERR_CODE_5");
     err_code = ERR_CODE_5;
   }
   if (err_code == -1) //no error.
   {
     //TODO: send reply.
+    printf("\nerr_code == -1 -> NO ERROR\n");
+    send(sock, &reply, sizeof(reply), 0);
   }
   else
   {
+    printf("\nError reply: %d\n", err_code);
     build_error_msg(error_reply, err_code);
     //TODO: send error_reply.
+    send(sock, &error_reply, sizeof(error_reply), 0);
   }
 
 }

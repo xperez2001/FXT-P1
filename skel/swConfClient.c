@@ -124,25 +124,29 @@ void process_connect_to_any_operation(int sock)
   struct conn_any_hdr connect_to_any;
   struct conn_any_rp_hdr reply;
   (void) reply;
+
   //TODO omplir el opcode MSG_CONN_ANY
+  connect_to_any.opcode = htons(MSG_CONN_ANY);
   set_MAC_from_stdin(connect_to_any.mac);
 
   //TODO send(....)
+  send(sock, &connect_to_any, sizeof(connect_to_any), 0);
+
   //TODO recv(.., reply,..)
+  recv(sock, &reply, sizeof(reply), 0);
 
   //TODO obtenir el codi d'operació tot omplint el
   //puntejat i descomentar aquest codi
-  /*
-  if(.... == MSG_CONN_ANY_RP)
+  
+  if(reply.opcode == MSG_CONN_ANY_RP)
   {
     //mostrar el port assignat tot omplint el puntejat
-    printf("%s %hu\n\n",CONN_ANY_TXT_MSG, .....);
+    printf("%s %hu\n\n",CONN_ANY_TXT_MSG, reply.port);
   }
   else
   {
     show_boolean_operation_feedback((char *)&reply);
   }
-  */
 }
 
 /**
