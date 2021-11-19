@@ -524,14 +524,20 @@ int main(int argc, char* argv[])
       printf("SERVER: accept -> Error\n");
     else
       printf("SERVER: accept -> Succes\n"); 
-    
-   
 
-    do {
-    
-      done = process_msg(con_sock, swConnections);
-    }while(!done);
+    int pid = fork();
+    if (pid == 0)
+    {
+      close(s);
 
+      do {
+        done = process_msg(con_sock, swConnections);
+      }while(!done);
+
+      close(con_sock);
+      exit(0);
+    }
+    close(con_sock);
   }//end while
 
 
