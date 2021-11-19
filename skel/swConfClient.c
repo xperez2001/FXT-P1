@@ -201,6 +201,7 @@ void process_parameterless_boolean_operation_with_feedback(int sock,
 
   send_parameterless_msg(sock, msg);
   //TODO recv(..., reply, ....);
+  recv(sock, reply, sizeof(reply), 0);
   show_boolean_operation_feedback(reply);
 }
 

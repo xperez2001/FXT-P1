@@ -36,13 +36,6 @@ void send_parameterless_msg(int sock, int operation)
 void build_parameterless_msg(char *msg, unsigned short operation)
 {
   stshort(operation, msg);
-
-/*
-  msg[0] = operation/10; 
-  msg[1] = operation%10;
-
-  printf("msg[0] = %d, msg[1] = %d \n", msg[0], msg[1]);
-*/
 }
 
 /**
