@@ -178,19 +178,23 @@ void process_CONN_TO_msg(int sock, swConnectionsMatrix swConnections, struct con
       //strcpy(swConnections[port], .....);
       strcpy(swConnections[port], connect_to.mac);
       build_ok_msg(reply);
+      printf("\nport available");
     }
     else
     {
+      printf("\nport not available");
       build_error_msg(reply, ERR_CODE_1);
     }
   }
-
   else
   {
+    printf("\nIncorrect MAC format");
     build_error_msg(reply, err_code);
   }
 
   //TODO: send(.....)
+  printf("reply = %d", ldshort(reply));
+
   send(sock, reply, sizeof(reply), 0);
 }
 
@@ -229,8 +233,8 @@ void process_CONN_ANY_msg(int sock, swConnectionsMatrix swConnections, struct co
       strcpy(swConnections[port], connect_any.mac);
 
       //TODO: omplir els camps de reply:
-      reply.opcode = htons(MSG_CONN_ANY_RP);
-      reply.port = htons(port);
+      reply.opcode = MSG_CONN_ANY_RP;
+      reply.port = port;
     }
     else
     {
