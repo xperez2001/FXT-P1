@@ -156,8 +156,7 @@ void process_LIST_msg(int sock, swConnectionsMatrix swConnections)
  * corresponding structure.
  * port of the switch.
  */
-void process_CONN_TO_msg(int sock, swConnectionsMatrix swConnections,
-  struct conn_to_hdr * conn_to_msg)
+void process_CONN_TO_msg(int sock, swConnectionsMatrix swConnections, struct conn_to_hdr * conn_to_msg)
 {
   struct conn_to_hdr connect_to = *conn_to_msg;
   unsigned short port;
@@ -168,7 +167,8 @@ void process_CONN_TO_msg(int sock, swConnectionsMatrix swConnections,
 
   //TODO: obtenir el port del missatge conn_to_msg:
   //port = ...(...);
-  port = 0; // TODO: borrar aquesta linia
+  port = connect_to.port;
+
   if((err_code=checkPortAndMACFormat(port, connect_to.mac)) == 0)
   {
     if (isPortAvailable(port, swConnections))
@@ -176,6 +176,7 @@ void process_CONN_TO_msg(int sock, swConnectionsMatrix swConnections,
       //TODO: Assignar al port que ens han passat pel missatge
       // la mac que ens han passat també pel missatge:
       //strcpy(swConnections[port], .....);
+      strcpy(swConnections[port], connect_to.mac);
       build_ok_msg(reply);
     }
     else
@@ -190,6 +191,7 @@ void process_CONN_TO_msg(int sock, swConnectionsMatrix swConnections,
   }
 
   //TODO: send(.....)
+  send(sock, reply, sizeof(reply), 0);
 }
 
 

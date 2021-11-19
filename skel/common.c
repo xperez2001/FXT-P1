@@ -49,11 +49,12 @@ void build_parameterless_msg(char *msg, unsigned short operation)
  * @param operation the operation code to be stored in the message.
  * @param field1 the unsigned short to be stored after the operation code field.
  */
-void build_two_unsigned_short_fields_msg(char * msg, unsigned short operation, 
-  unsigned short field1)
+void build_two_unsigned_short_fields_msg(char * msg, unsigned short operation, unsigned short field1)
 {
   //TODO stshort(...);
   //TODO stshort(...);
+  stshort(operation, msg);
+  stshort(field1, msg);
 }
 
 /**

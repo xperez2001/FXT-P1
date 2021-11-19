@@ -98,11 +98,19 @@ void process_connect_to_operation(int sock)
 
   //NOTA: L'operation code és  MSG_CONN_TO
   //TODO  connect_to.opcode = htons(...);
+  connect_to.opcode = htons(MSG_CONN_TO);
+
   //TODO omplir port
+  connect_to.port = get_port_from_stdin();
   set_MAC_from_stdin(connect_to.mac);
 
   //TODO send(.....);
+  if (send(sock, &connect_to, sizeof(connect_to), 0) == -1)
+    printf("CLIENT: send -> Error\n");
+  
   //TODO recv(..., reply, ....);
+  recv(sock, reply, sizeof(reply), 0);
+
   show_boolean_operation_feedback(reply);
 }
 
@@ -217,18 +225,17 @@ void show_boolean_operation_feedback(char *reply)
   (void) error_code;
   //TODO obtenir, a partir de reply, el codi d'operació.
   // tot omplint el puntejat i descomentant el codi.
-  /*
-  if(ldshort(..... == MSG_OP_OK)
+
+  if(ldshort(reply) == MSG_OP_OK)
   {
     printf("%s\n\n", OK_MSG);
   }
   else
   {
-    error_code = .....;//obtenir el codi d'error del missatge
+    error_code = ldshort(reply);//obtenir el codi d'error del missatge
     get_error_msg(error_code, err_msg);
     printf("%s: %s\n\n", NOK_MSG, err_msg);
   }
-  */
 }
 
 /**
